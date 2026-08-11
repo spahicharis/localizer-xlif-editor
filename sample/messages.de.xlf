@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" target-language="de" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="app.title" datatype="html">
+        <source>Welcome to the Localizer</source>
+        <target state="new">Welcome to the Localizer</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <note priority="1" from="description">Main page heading</note>
+      </trans-unit>
+      <trans-unit id="app.greeting" datatype="html">
+        <source>Hello <x id="INTERPOLATION" equiv-text="{{ name }}"/>, you have <x id="INTERPOLATION_1" equiv-text="{{ count }}"/> new messages.</source>
+        <target state="new">Hello <x id="INTERPOLATION" equiv-text="{{ name }}"/>, you have <x id="INTERPOLATION_1" equiv-text="{{ count }}"/> new messages.</target>
+        <note priority="1" from="meaning">greeting</note>
+      </trans-unit>
+      <trans-unit id="app.save" datatype="html">
+        <source>Save &amp; close</source>
+        <target state="translated">Speichern &amp; schließen</target>
+      </trans-unit>
+      <trans-unit id="app.cancel" datatype="html">
+        <source>Cancel</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

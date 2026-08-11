@@ -1,0 +1,143 @@
+<header class="topbar">
+  <div class="brand">
+    <img class="logo" src="logo.svg" alt="" width="44" height="44" />
+    <div class="brand-text">
+      <h1>Localizer</h1>
+      <span class="tagline">XLIFF 1.2 translation editor</span>
+    </div>
+  </div>
+
+  <label class="file-picker">
+    <input type="file" accept=".xlf,.xliff,.xml" (change)="onFileSelected($event)" />
+    <span>Upload .xlf file</span>
+  </label>
+</header>
+
+@if (busy()) {
+  <p class="banner busy">{{ busy() }}</p>
+}
+@if (error()) {
+  <p class="banner error">{{ error() }}</p>
+}
+@if (notice() && !error()) {
+  <p class="banner notice">{{ notice() }}</p>
+}
+
+@if (file(); as loaded) {
+  <main class="surface">
+    <section class="toolbar" #toolbar>
+      <div class="meta">
+        <strong>{{ loaded.originalName }}</strong>
+        <span class="chip lang">
+          {{ loaded.sourceLanguage || '?' }} → {{ loaded.targetLanguage || '?' }}
+        </span>
+        <span class="chip">{{ rows().length }} keys</span>
+        <span class="chip warn">{{ untranslatedRows().length }} untranslated</span>
+        <span class="chip" [class.dirty]="dirtyRows().length">{{ dirtyRows().length }} unsaved</span>
+      </div>
+
+      <div class="controls">
+        <input
+          class="search"
+          type="search"
+          placeholder="Search key, source or target…"
+          [value]="search()"
+          (input)="search.set($any($event.target).value)"
+        />
+        <select [value]="stateFilter()" (change)="stateFilter.set($any($event.target).value)">
+          <option value="all">All states</option>
+          <option value="untranslated">Untranslated</option>
+          @for (state of states(); track state) {
+            <option [value]="state">{{ state }}</option>
+          }
+        </select>
+        <button
+          type="button"
+          (click)="translateUntranslated()"
+          [disabled]="!untranslatedRows().length || !!busy()"
+        >
+          Translate untranslated
+        </button>
+        <button type="button" (click)="markVisibleTranslated()">Mark visible translated</button>
+        <a class="button-link" [href]="downloadUrl()" download>Download</a>
+        <button
+          class="primary"
+          type="button"
+          (click)="save()"
+          [disabled]="!dirtyRows().length || !!busy()"
+        >
+          Save {{ dirtyRows().length || '' }}
+        </button>
+      </div>
+    </section>
+
+    <table class="units">
+      <thead>
+        <tr>
+          <th class="col-key">Key</th>
+          <th class="col-source">Source</th>
+          <th class="col-target">Target</th>
+          <th class="col-state">State</th>
+          <th class="col-actions"></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of visibleRows(); track row.unit.id) {
+          <tr [class.row-dirty]="row.dirty()">
+            <td class="col-key">
+              <code>{{ row.unit.id }}</code>
+              @if (row.unit.meaning) { <small class="hint">meaning: {{ row.unit.meaning }}</small> }
+              @if (row.unit.description) { <small class="hint">{{ row.unit.description }}</small> }
+              @for (location of row.unit.locations; track location) {
+                <small class="hint location">{{ location }}</small>
+              }
+            </td>
+            <td class="col-source">{{ row.unit.source }}</td>
+            <td class="col-target">
+              <textarea
+                rows="2"
+                spellcheck="false"
+                [value]="row.target()"
+                (input)="onTargetInput(row, $event)"
+              ></textarea>
+            </td>
+            <td class="col-state">
+              <select
+                [value]="row.state()"
+                (change)="onStateChange(row, $event)"
+                [attr.data-state]="row.state()"
+              >
+                @if (!row.state()) { <option value="">(no target)</option> }
+                @for (state of states(); track state) {
+                  <option [value]="state">{{ state }}</option>
+                }
+              </select>
+            </td>
+            <td class="col-actions">
+              <button type="button" (click)="translateRow(row)" [disabled]="row.translating()">
+                {{ row.translating() ? '…' : 'Translate' }}
+              </button>
+              @if (row.dirty()) {
+                <button type="button" class="ghost" (click)="revert(row)">Revert</button>
+              }
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td class="empty" colspan="5">No keys match the current filter.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </main>
+} @else {
+  <section class="placeholder surface">
+    <img class="placeholder-logo" src="logo.svg" alt="" width="72" height="72" />
+    <h2>Upload an XLIFF file to get started</h2>
+    <p>
+      Pick a <code>.xlf</code> file (XLIFF 1.2, e.g. Angular's <code>messages.xlf</code>). Every
+      <code>&lt;trans-unit&gt;</code> is listed so you can edit its target, translate it with Google
+      Translate, and write the result back to the uploaded file.
+    </p>
+  </section>
+}
