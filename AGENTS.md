@@ -86,7 +86,10 @@ environment. Note the build needs devDependencies, so don't install with `--omit
   parser in `server/xliff.js`.
 - Target editing accepts XML fragments so inline placeholders survive. Input that is not
   well-formed XML (e.g. a bare `&`) is escaped as literal text.
-- The translation module uses the free, unofficial Google endpoint. It is commonly rate-limited
-  (HTTP 429) from datacenter IPs, so it may fail once deployed even though it works locally.
+- The translation module uses the free, unofficial Google endpoint. It currently works from the
+  Render deployment, but this endpoint is commonly rate-limited (HTTP 429) from datacenter IPs and
+  can start failing without warning.
+- Live deployment: https://localizer-xlif-editor-full.onrender.com/ (Render free tier, sleeps
+  after 15 min idle).
 - `uploads/` is a plain directory on local disk. On hosts with an ephemeral filesystem
   (Render free, etc.) uploads are lost on restart, redeploy or idle spin-down.

@@ -10,6 +10,16 @@ Upload an `.xlf`, see every key, machine-translate what's missing, and write it 
 to the file — without reformatting a single line you didn't touch.
 
 <p>
+  <a href="https://localizer-xlif-editor-full.onrender.com/">
+    <img alt="Live demo" src="https://img.shields.io/badge/Live%20demo-Try%20it%20now-6366f1?style=for-the-badge&logo=googlechrome&logoColor=white">
+  </a>
+</p>
+
+### [localizer-xlif-editor-full.onrender.com][demo]
+
+<sub>Hosted on Render's free tier — it sleeps after 15 minutes idle, so the first load can take up to a minute.</sub>
+
+<p>
   <img alt="Angular 20" src="https://img.shields.io/badge/Angular-20-DD0031?logo=angular&logoColor=white">
   <img alt="Node 26" src="https://img.shields.io/badge/Node.js-26-339933?logo=nodedotjs&logoColor=white">
   <img alt="Express 5" src="https://img.shields.io/badge/Express-5-000000?logo=express&logoColor=white">
@@ -22,6 +32,10 @@ to the file — without reformatting a single line you didn't touch.
 <!-- Drop a screenshot of the editor here, e.g. ![Localizer](docs/screenshot.png) -->
 
 ---
+
+> **Try it without installing anything:** [localizer-xlif-editor-full.onrender.com][demo]
+>
+> Upload [`sample/messages.de.xlf`](sample/messages.de.xlf) from this repo to see it in action.
 
 ## Why
 
@@ -49,6 +63,8 @@ produces a **clean diff**.
 - **Download** — grab the updated file at any time.
 
 ## Quick start
+
+Prefer to poke at it first? Use the [live demo][demo]. To run it locally:
 
 ```bash
 git clone <your-repo-url> localizer
@@ -159,8 +175,8 @@ app, so there's no CORS setup and no second deployment.
 npm ci && npm run build && npm start   # honours $PORT
 ```
 
-The build needs devDependencies, so don't install with `--omit=dev`. Any Node host works
-(Render's free tier is a reasonable fit) — see the limitations below first.
+The build needs devDependencies, so don't install with `--omit=dev`. Any Node host works — the
+[live demo][demo] runs exactly this way on Render's free tier. See the limitations below first.
 
 ## Limitations
 
@@ -169,8 +185,8 @@ Worth knowing before you rely on it:
 - **XLIFF 1.2 only.** Files using XLIFF 2.0 (`<unit>` / `<segment>`) are rejected with a clear
   error rather than silently mis-parsed.
 - **Translation uses an unofficial endpoint.** [`@parvineyvazov/json-translator`][jsontt] talks to
-  the free Google Translate web endpoint. It's fine locally, but is commonly rate-limited (HTTP
-  429) from datacenter IPs — so it may fail once deployed even though it works on your machine.
+  the free Google Translate web endpoint. It works on the demo today, but this endpoint is
+  commonly rate-limited (HTTP 429) from datacenter IPs and can start failing without warning.
   Swap `server/translate.js` for the official Cloud Translation API if you need reliability.
 - **Uploads are stored on local disk.** On hosts with an ephemeral filesystem they're lost on
   restart, redeploy or idle spin-down. Treat a session as upload → translate → save → download.
@@ -187,3 +203,4 @@ Angular 20 (standalone components, signals) · Express 5 · fast-xml-parser · M
 ISC.
 
 [jsontt]: https://github.com/mololab/json-translator
+[demo]: https://localizer-xlif-editor-full.onrender.com/
