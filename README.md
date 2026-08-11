@@ -11,7 +11,7 @@ to the file — without reformatting a single line you didn't touch.
 
 <p>
   <img alt="Angular 20" src="https://img.shields.io/badge/Angular-20-DD0031?logo=angular&logoColor=white">
-  <img alt="Node >= 20" src="https://img.shields.io/badge/Node.js-%E2%89%A5%2020-339933?logo=nodedotjs&logoColor=white">
+  <img alt="Node 22" src="https://img.shields.io/badge/Node.js-22-339933?logo=nodedotjs&logoColor=white">
   <img alt="Express 5" src="https://img.shields.io/badge/Express-5-000000?logo=express&logoColor=white">
   <img alt="XLIFF 1.2" src="https://img.shields.io/badge/XLIFF-1.2-6366f1">
   <img alt="License ISC" src="https://img.shields.io/badge/license-ISC-4f46e5">
